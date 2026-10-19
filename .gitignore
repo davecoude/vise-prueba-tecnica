@@ -1,0 +1,21 @@
+# Node
+node_modules/
+dist/
+coverage/
+
+# Python
+__pycache__/
+.venv/
+.pytest_cache/
+*.pyc
+
+# Entorno y salidas
+.env
+rpa/output/
+rpa/logs/
+*.log
+
+# SO / IDE
+.DS_Store
+.vscode/
+.idea/

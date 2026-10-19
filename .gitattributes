@@ -1,0 +1,7 @@
+# Normaliza todo a LF en el repositorio
+* text=auto eol=lf
+
+# Binarios: no tocar
+*.png  binary
+*.jpg  binary
+*.xlsx binary
