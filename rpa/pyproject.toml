@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rpa-antecedentes"
+version = "1.0.0"
+description = "RPA de consulta de antecedentes (servicio simulado) para la prueba técnica de VISE"
+requires-python = ">=3.12"
+dependencies = ["openpyxl==3.1.5", "requests==2.34.2"]
+
+[project.optional-dependencies]
+# httpx2: cliente que usa el TestClient de Starlette/FastAPI en las pruebas del servicio simulado
+dev = ["pytest==9.1.1", "responses==0.26.3", "httpx2==2.15.1"]
+
+[project.scripts]
+rpa-antecedentes = "rpa_antecedentes.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"

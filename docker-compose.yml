@@ -59,5 +59,38 @@ services:
       timeout: 5s
       retries: 5
 
+  # ---------- Parte 2: RPA ----------
+  antecedentes-mock:
+    build: ./rpa/mock_service
+    container_name: vise-antecedentes-mock
+    restart: unless-stopped
+    environment:
+      FAILURE_RATE: ${MOCK_FAILURE_RATE:-0.1}
+    ports:
+      - "${MOCK_HOST_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Proceso batch: se ejecuta una vez con `docker compose up` y termina (exit 0).
+  # Para repetirlo: docker compose run --rm rpa
+  rpa:
+    build: ./rpa
+    container_name: vise-rpa
+    environment:
+      ANTECEDENTES_SERVICE_URL: http://antecedentes-mock:8000
+      RPA_TIMEOUT_S: ${RPA_TIMEOUT_S:-3}
+      RPA_MAX_REINTENTOS: ${RPA_MAX_REINTENTOS:-3}
+      RPA_ENMASCARAR_LOGS: ${RPA_ENMASCARAR_LOGS:-true}
+    volumes:
+      - ./rpa/data:/app/data:ro # entrada: reemplaza cedulas.xlsx sin reconstruir la imagen
+      - ./rpa/output:/app/output # salida: reporte_antecedentes.xlsx
+      - ./rpa/logs:/app/logs # un log por ejecución
+    depends_on:
+      antecedentes-mock:
+        condition: service_healthy
+
 volumes:
   pgdata:
