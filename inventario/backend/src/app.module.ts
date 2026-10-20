@@ -1,8 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { envValidationSchema } from './config/env.validation';
 import { buildTypeOrmOptions } from './database/typeorm.options';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +32,18 @@ import { buildTypeOrmOptions } from './database/typeorm.options';
 
       }),
     }),
+    AuthModule,
+  ],
+  providers: [
+    {
+      //validacion global via DI
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true, // responde 400 si llegan
+        transform: true, // ejecuta @Transform y convierte a instancias del DTO
+      }),
+    },
   ],
 })
 export class AppModule {}
