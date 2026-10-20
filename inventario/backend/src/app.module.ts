@@ -1,6 +1,9 @@
+import { APP_PIPE, APP_FILTER } from '@nestjs/core';
+import { QueryFailedExceptionFilter } from './common/filters/query-failed-exception.filter';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { ProductsModule } from './modules/products/products.module';
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { envValidationSchema } from './config/env.validation';
 import { buildTypeOrmOptions } from './database/typeorm.options';
@@ -33,6 +36,8 @@ import { AuthModule } from './modules/auth/auth.module';
       }),
     }),
     AuthModule,
+    CategoriesModule,
+    ProductsModule,
   ],
   providers: [
     {
@@ -43,6 +48,11 @@ import { AuthModule } from './modules/auth/auth.module';
         forbidNonWhitelisted: true, // responde 400 si llegan
         transform: true, // ejecuta @Transform y convierte a instancias del DTO
       }),
+    },
+    {
+      // filtro global: traduce errores de PostgreSQL a respuestas HTTP
+      provide: APP_FILTER,
+      useClass: QueryFailedExceptionFilter,
     },
   ],
 })
