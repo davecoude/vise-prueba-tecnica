@@ -1,4 +1,4 @@
-import { ValueTransformer } from "typeorm";
+import { ValueTransformer } from 'typeorm';
 
 /**
  * `pg` devuelve NUMERIC como string para no perder precisión.
@@ -7,5 +7,6 @@ import { ValueTransformer } from "typeorm";
  */
 export const decimalTransformer: ValueTransformer = {
   to: (value?: number | null) => value,
-  from: (value?: string | null) => value === null || value === undefined ? value : Number(value),
-}
+  from: (value?: string | null) =>
+    value === null || value === undefined ? value : Number(value),
+};

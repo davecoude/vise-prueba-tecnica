@@ -1,8 +1,14 @@
 import {
-  Check, Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne,
+  Check,
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
-} from "typeorm"
-import { Product } from "../../products/entities/product.entity"
+} from 'typeorm';
+import { Product } from '../../products/entities/product.entity';
 
 export enum MovementType {
   ENTRADA = 'entrada',
@@ -10,19 +16,18 @@ export enum MovementType {
 }
 
 @Entity('movements')
-// indice compuesto alineado con la consulta del kardex:
-@Index('IDX_movements_product_date', ['productId', 'date', 'id'])
+// indice alineado con la consulta del kardex: WHERE product_id = ? ORDER BY id
+@Index('IDX_movements_product_id_id', ['productId', 'id'])
 @Check('CHK_movements_quantity_positive', '"quantity" > 0')
 @Check('CHK_movements_balance_non_negative', '"balance_after" >= 0')
 export class Movement {
-
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column({ name: 'product_id', type: 'int' })
   productId!: number;
 
-  // un producto con historial no se puede eliminar
+  // RESTRICT: un producto con historial no se puede eliminar (integridad del kardex)
   @ManyToOne(() => Product, { nullable: false, onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'product_id' })
   product?: Product;
@@ -33,13 +38,18 @@ export class Movement {
   @Column({ type: 'int' })
   quantity!: number;
 
-  // saldo del producto inmediatamente despues de este movimiento
+  // saldo del producto inmediatamente después de este movimiento (snapshot)
   @Column({ name: 'balance_after', type: 'int' })
   balanceAfter!: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   note!: string | null;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  /**
+   * clock_timestamp() = instante real del INSERT.
+   * now() devolvería el inicio de la transacción, que puede ser anterior
+   * al momento en que se obtuvo el lock → fechas desordenadas bajo concurrencia.
+   */
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'clock_timestamp()' })
   date!: Date;
 }

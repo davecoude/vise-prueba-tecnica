@@ -1,6 +1,15 @@
 import {
-  Body, Controller, Delete, Get, HttpCode, HttpStatus,
-  Param, ParseIntPipe, Patch, Post, Query,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
 import type { PaginatedResult } from '../../common/pagination/paginated-result';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -21,13 +30,17 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Query() query: ListProductsQueryDto): Promise<PaginatedResult<Product>> {
+  findAll(
+    @Query() query: ListProductsQueryDto,
+  ): Promise<PaginatedResult<Product>> {
     return this.productsService.findAll(query);
   }
 
   // d ebe declararse ANTES de ':id'; si no, "low-stock" se interpreta como un id
   @Get('low-stock')
-  findLowStock(@Query() { threshold }: LowStockQueryDto): Promise<LowStockResult> {
+  findLowStock(
+    @Query() { threshold }: LowStockQueryDto,
+  ): Promise<LowStockResult> {
     return this.productsService.findLowStock(threshold);
   }
 

@@ -1,5 +1,16 @@
-import { IsInt, IsNumber, IsString, Length, Matches, Max, Min } from 'class-validator';
-import { Trim, TrimUpper } from '../../../common/decorators/transform.decorators';
+import {
+  IsInt,
+  IsNumber,
+  IsString,
+  Length,
+  Matches,
+  Max,
+  Min,
+} from 'class-validator';
+import {
+  Trim,
+  TrimUpper,
+} from '../../../common/decorators/transform.decorators';
 
 /**
  * Sin `stock`: el stock solo cambia mediante movimientos (kardex).
@@ -14,7 +25,8 @@ export class CreateProductDto {
   @TrimUpper()
   @IsString()
   @Matches(/^[A-Z0-9-]{3,50}$/, {
-    message: 'sku debe tener entre 3 y 50 caracteres: letras, números o guiones',
+    message:
+      'sku debe tener entre 3 y 50 caracteres: letras, números o guiones',
   })
   sku!: string;
 

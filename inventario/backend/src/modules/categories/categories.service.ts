@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { escapeLike } from '../../common/utils/sql.util';
@@ -25,9 +29,15 @@ export class CategoriesService {
 
   async create({ name }: CreateCategoryDto): Promise<Category> {
     // comparacion case-insensitive: "Aseo" y "aseo" son la misma categoría
-    if (await this.categoriesRepository.existsBy({ name: ILike(escapeLike(name)) })) {
+    if (
+      await this.categoriesRepository.existsBy({
+        name: ILike(escapeLike(name)),
+      })
+    ) {
       throw new ConflictException(`Ya existe la categoría "${name}"`);
     }
-    return this.categoriesRepository.save(this.categoriesRepository.create({ name }));
+    return this.categoriesRepository.save(
+      this.categoriesRepository.create({ name }),
+    );
   }
 }

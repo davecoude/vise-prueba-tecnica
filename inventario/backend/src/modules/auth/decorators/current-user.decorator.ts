@@ -1,5 +1,12 @@
-import { createParamDecorator, ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import type { AuthenticatedRequest, AuthenticatedUser } from '../interfaces/auth.interfaces';
+import {
+  createParamDecorator,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
+import type {
+  AuthenticatedRequest,
+  AuthenticatedUser,
+} from '../interfaces/auth.interfaces';
 
 // inyecta el usuario autenticado
 export const CurrentUser = createParamDecorator(

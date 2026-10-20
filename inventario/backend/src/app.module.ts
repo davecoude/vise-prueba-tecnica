@@ -2,6 +2,7 @@ import { APP_PIPE, APP_FILTER } from '@nestjs/core';
 import { QueryFailedExceptionFilter } from './common/filters/query-failed-exception.filter';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
+import { MovementsModule } from './modules/movements/movements.module';
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -32,12 +33,12 @@ import { AuthModule } from './modules/auth/auth.module';
 
         // aplica migraciones pendientes al arrancar -> docker composer up
         migrationsRun: true,
-
       }),
     }),
     AuthModule,
     CategoriesModule,
     ProductsModule,
+    MovementsModule,
   ],
   providers: [
     {

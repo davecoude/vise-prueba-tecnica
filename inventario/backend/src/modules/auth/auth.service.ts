@@ -1,7 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { DUMMY_PASSWORD_HASH, verifyPassword } from '../../common/security/password.util';
+import {
+  DUMMY_PASSWORD_HASH,
+  verifyPassword,
+} from '../../common/security/password.util';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import type { JwtPayload, LoginResponse } from './interfaces/auth.interfaces';
@@ -18,7 +21,10 @@ export class AuthService {
     const user = await this.usersService.findByEmailWithPassword(email);
 
     // siempre se ejecuta bcrypt → no se puede inferir si el email existe
-    const isValid = await verifyPassword(password, user?.passwordHash ?? DUMMY_PASSWORD_HASH);
+    const isValid = await verifyPassword(
+      password,
+      user?.passwordHash ?? DUMMY_PASSWORD_HASH,
+    );
     if (!user || !isValid) {
       // mensaje generico a proposito: no revela que dato fallo
       throw new UnauthorizedException('Credenciales inválidas');

@@ -17,7 +17,9 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
         signOptions: {
           algorithm: 'HS256',
           // ya validado por Joi (/^\d+[smhd]$/); el cast adapta el string al tipo de jsonwebtoken
-          expiresIn: config.getOrThrow<string>('JWT_EXPIRES_IN') as JwtSignOptions['expiresIn'],
+          expiresIn: config.getOrThrow<string>(
+            'JWT_EXPIRES_IN',
+          ) as JwtSignOptions['expiresIn'],
         },
         // fijar el algoritmo previene ataques de "algorithm confusion"
         verifyOptions: { algorithms: ['HS256'] },

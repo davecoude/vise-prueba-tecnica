@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
@@ -12,7 +16,9 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 
 /** Columnas editables por el CRUD. `stock` queda fuera a propósito. */
-type ProductChanges = Partial<Pick<Product, 'name' | 'sku' | 'categoryId' | 'price'>>;
+type ProductChanges = Partial<
+  Pick<Product, 'name' | 'sku' | 'categoryId' | 'price'>
+>;
 
 export interface LowStockResult {
   threshold: number;
@@ -46,7 +52,12 @@ export class ProductsService {
     return this.findOne(id);
   }
 
-  async findAll({ page, limit, categoryId, search }: ListProductsQueryDto): Promise<PaginatedResult<Product>> {
+  async findAll({
+    page,
+    limit,
+    categoryId,
+    search,
+  }: ListProductsQueryDto): Promise<PaginatedResult<Product>> {
     const base: FindOptionsWhere<Product> = categoryId ? { categoryId } : {};
     // Un arreglo en `where` se traduce a OR: (name ILIKE x OR sku ILIKE x) AND category
     const where = search
@@ -68,7 +79,8 @@ export class ProductsService {
 
   async findLowStock(threshold?: number): Promise<LowStockResult> {
     const effectiveThreshold =
-      threshold ?? this.config.getOrThrow<number>('LOW_STOCK_DEFAULT_THRESHOLD');
+      threshold ??
+      this.config.getOrThrow<number>('LOW_STOCK_DEFAULT_THRESHOLD');
 
     const data = await this.productsRepository.find({
       where: { stock: LessThan(effectiveThreshold) },

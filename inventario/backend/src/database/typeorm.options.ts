@@ -1,11 +1,11 @@
-import { DataSourceOptions } from "typeorm"
+import { DataSourceOptions } from 'typeorm';
 
 export interface DbConnectionConfig {
-  host: string
-  port: number
-  username: string
-  password: string
-  database: string
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database: string;
 }
 
 /**
@@ -13,12 +13,14 @@ export interface DbConnectionConfig {
  * Función pura: la consumen Nest (vía ConfigService) y la CLI (vía process.env).
  * Los globs cubren .ts (ts-node) y .js (dist compilado).
  */
-export const buildTypeOrmOptions = (db: DbConnectionConfig): DataSourceOptions => ({
-    type: 'postgres',
-    ...db,
-    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-    migrations: [__dirname + '/migrations/*{.ts,.js}'],
-    migrationsTableName: 'typeorm_migrations',
-    synchronize: false,
-    logging: ['error', 'warn', 'migration'],
-})
+export const buildTypeOrmOptions = (
+  db: DbConnectionConfig,
+): DataSourceOptions => ({
+  type: 'postgres',
+  ...db,
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  migrations: [__dirname + '/migrations/*{.ts,.js}'],
+  migrationsTableName: 'typeorm_migrations',
+  synchronize: false,
+  logging: ['error', 'warn', 'migration'],
+});

@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "deploy": "nest deploy",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write --no-error-on-unmatched-pattern \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.mjs\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -19,6 +19,7 @@
     "test:cov": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage",
     "test:debug": "node --inspect-brk --experimental-vm-modules -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config ./test/jest-e2e.json",
+    "test:concurrency": "node scripts/concurrency-test.mjs",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/database/data-source.ts",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/database/data-source.ts",

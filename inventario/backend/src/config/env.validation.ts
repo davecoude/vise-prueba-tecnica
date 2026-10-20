@@ -1,4 +1,4 @@
-import * as Joi from "joi"
+import * as Joi from 'joi';
 
 /**
  * Contrato de variables de entorno. Si algo falta o es inválido,
@@ -17,7 +17,9 @@ export const envValidationSchema = Joi.object({
   DB_NAME: Joi.string().required(),
 
   JWT_SECRET: Joi.string().min(23).required(),
-  JWT_EXPIRES_IN: Joi.string().pattern(/^\d+[smhd]$/).default('1h'),
+  JWT_EXPIRES_IN: Joi.string()
+    .pattern(/^\d+[smhd]$/)
+    .default('1h'),
 
   // +32 caracteres: uno corto es vulnerable a fuerza bruta
   LOW_STOCK_DEFAULT_THRESHOLD: Joi.number().integer().min(0).default(10),
@@ -25,5 +27,4 @@ export const envValidationSchema = Joi.object({
   // solo los usa el script de seed
   SEED_USER_EMAIL: Joi.string().email().optional(),
   SEED_USER_PASSWORD: Joi.string().min(8).optional(),
-
-})
+});

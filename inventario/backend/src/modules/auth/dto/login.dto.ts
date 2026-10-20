@@ -3,7 +3,9 @@ import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class LoginDto {
   // normaliza para que coincida con el email guardado en minusculas
-  @Transform(({ value }) => (typeof value === 'string' ? value.trim().toLowerCase() : value))
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim().toLowerCase() : value,
+  )
   @IsEmail({}, { message: 'email debe ser un correo válido' })
   @MaxLength(150)
   email!: string;

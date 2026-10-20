@@ -6,4 +6,6 @@ export const Trim = () =>
 
 // trim + mayusculas (codigos como el SKU)
 export const TrimUpper = () =>
-  Transform(({ value }) => (typeof value === 'string' ? value.trim().toUpperCase() : value));
+  Transform(({ value }) =>
+    typeof value === 'string' ? value.trim().toUpperCase() : value,
+  );
