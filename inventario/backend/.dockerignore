@@ -1,0 +1,13 @@
+# Se instalan y compilan dentro de la imagen
+node_modules
+dist
+coverage
+*.tsbuildinfo
+
+# Secretos y configuración local: llegan por variables de entorno, nunca en la imagen
+.env
+.env.*
+
+# Ruido
+npm-debug.log*
+.git

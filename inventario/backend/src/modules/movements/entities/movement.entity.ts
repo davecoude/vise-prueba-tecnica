@@ -45,11 +45,10 @@ export class Movement {
   @Column({ type: 'varchar', length: 255, nullable: true })
   note!: string | null;
 
-  /**
-   * clock_timestamp() = instante real del INSERT.
-   * now() devolvería el inicio de la transacción, que puede ser anterior
-   * al momento en que se obtuvo el lock → fechas desordenadas bajo concurrencia.
-   */
+  // clock_timestamp() = instante real del INSERT. now() devolvería el inicio de la
+  // transacción, que puede ser anterior al momento en que se obtuvo el lock
+  // → fechas desordenadas bajo concurrencia.
+  /** Fecha y hora en que se registró el movimiento. */
   @CreateDateColumn({ type: 'timestamptz', default: () => 'clock_timestamp()' })
   date!: Date;
 }

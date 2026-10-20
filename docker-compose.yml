@@ -19,5 +19,30 @@ services:
       timeout: 5s
       retries: 10
 
+  backend:
+    build: ./inventario/backend
+    container_name: vise-backend
+    restart: unless-stopped
+    init: true # proceso init mínimo: reenvía señales y recoge procesos zombie
+    env_file: .env
+    environment:
+      # Dentro de la red de Compose la BD se resuelve por nombre de servicio
+      DB_HOST: db
+      DB_PORT: 5432
+      PORT: 3000
+      NODE_ENV: production
+    ports:
+      - "${API_HOST_PORT:-3000}:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      # El frontend (Bloque 6) esperará a que la API responda
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
 volumes:
   pgdata:
