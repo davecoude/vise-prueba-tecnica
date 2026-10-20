@@ -1,0 +1,55 @@
+/*
+ * Tokens de diseño de VISE Inventario.
+ * Paleta base del brief (#1B5E20, #2E7D32, #1F4E8C, #F4F6F5) + neutros con tinte verde
+ * y dos colores de estado (bajo mínimo / agotado).
+ */
+:root {
+  /* Marca */
+  --monte: #1b5e20; /* verde institucional: marca, acción primaria */
+  --hoja: #2e7d32; /* entradas de inventario */
+  --indigo: #1f4e8c; /* salidas de inventario, enlaces, foco */
+  --niebla: #f4f6f5; /* fondo de la aplicación */
+
+  /* Neutros (tinte verde para que no se sientan grises genéricos) */
+  --tinta: #18241c;
+  --liquen: #56645a;
+  --linea: #d3dcd6;
+  --linea-suave: #e6ece8;
+  --superficie: #ffffff;
+
+  /* Estados */
+  --ambar: #8a5300;
+  --ambar-fondo: #fbefd9;
+  --alerta: #a4262c;
+  --alerta-fondo: #fbe9ea;
+  --hoja-fondo: #e7f3e8;
+  --indigo-fondo: #e6edf7;
+
+  /* Tipografía: Archivo variable, con eje de ancho (wdth) para titulares expandidos */
+  --font: 'Archivo Variable', system-ui, sans-serif;
+  --wdth-display: 118;
+  --wdth-texto: 100;
+
+  /* Escala tipográfica (razón ~1.25) */
+  --t-xs: 0.8125rem; /* 13 */
+  --t-sm: 0.875rem; /* 14 */
+  --t-md: 1rem; /* 16 */
+  --t-lg: 1.25rem; /* 20 */
+  --t-xl: 1.75rem; /* 28 */
+  --t-2xl: 2.5rem; /* 40 */
+
+  /* Espaciado (múltiplos de 4) */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+
+  /* Radios con jerarquía: controles pequeños, paneles un poco más amplios */
+  --r-control: 4px;
+  --r-panel: 8px;
+
+  --ancho-contenido: 1180px;
+}
